@@ -1,0 +1,54 @@
+CREATE TABLE sales_data (
+    invoice_id VARCHAR(30),
+    branch VARCHAR(5),
+    city VARCHAR(30),
+    customer_type VARCHAR(30),
+    gender VARCHAR(10),
+    product_line VARCHAR(100),
+    unit_price DECIMAL(10, 2),
+    quantity INT,
+    VAT FLOAT(6, 4),
+    total DECIMAL(10, 2),
+    date DATE,
+    time TIMESTAMP,
+    payment_method DECIMAL(10, 2),
+    cogs DECIMAL(10, 2),
+    gross_margin_percentage FLOAT(11, 9),
+    gross_income DECIMAL(10, 2),
+    rating FLOAT(2, 1)
+);
+USE amazonsalesdata;
+SELECT * FROM amazon;
+
+-- Calculate total sales amount for each product line
+SELECT 
+    Product line,
+    SUM(Unit price) AS total_sales_amount
+FROM 
+    sales_data
+GROUP BY 
+    product_line;
+
+-- Identify the product lines performing best (top 5)
+SELECT 
+    product_line,
+    SUM(sales_amount) AS total_sales_amount
+FROM 
+    sales_data
+GROUP BY 
+    product_line
+ORDER BY 
+    total_sales_amount DESC
+LIMIT 5;
+
+-- Identify the product lines that need improvement (bottom 5)
+SELECT 
+    product_line,
+    SUM(sales_amount) AS total_sales_amount
+FROM 
+    sales_data
+GROUP BY 
+    product_line
+ORDER BY 
+    total_sales_amount ASC
+LIMIT 5;
